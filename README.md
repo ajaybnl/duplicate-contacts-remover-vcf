@@ -13,7 +13,7 @@ A Python script to clean and deduplicate contacts from `.vcf` (vCard) files, ens
 ### Running the Script via Thonny IDE
 1. Open **Thonny IDE** on your system.
 2. Click on **File > Open** and select `dupvcf.py`.
-3. Modify the input and output file paths if needed (default: `c:\contact_vcards.vcf` → `c:\cleaned_vcards.vcf`).
+3. Modify the input and output file paths if needed (default: `e:\c.vcf` → `e:\cleaned_vcards.vcf`).
 4. Click **Run** or press `F5` to execute the script.
 
 The script will process the `.vcf` file and remove duplicate contacts automatically.
@@ -30,13 +30,13 @@ The script will process the `.vcf` file and remove duplicate contacts automatica
 BEGIN:VCARD
 VERSION:3.0
 FN:John Doe
-TEL;TYPE=HOME:9871543210
+TEL;TYPE=HOME:9876543210
 END:VCARD
 
 BEGIN:VCARD
 VERSION:3.0
 FN:John Doe
-TEL;TYPE=WORK:9871543210
+TEL;TYPE=WORK:9876543210
 END:VCARD
 ```
 
@@ -45,13 +45,40 @@ END:VCARD
 BEGIN:VCARD
 VERSION:3.0
 FN:John Doe
-TEL;TYPE=PREF:+919871543210
+TEL;TYPE=PREF:+919876543210
 END:VCARD
 ```
+
+## 🌐 Cleaning iPhone Duplicate Contacts
+Follow these steps to clean duplicate contacts on iPhone using iCloud:
+
+1. **Export Contacts from iCloud:**
+   - Go to [iCloud Contacts](https://www.icloud.com/contacts/).
+   - Press `Ctrl + A` (Windows) or `Cmd + A` (Mac) to select all contacts.
+   - Click on the **gear icon** at the bottom left and select **Export vCard**.
+   - Save the `.vcf` file to your computer.
+
+2. **Remove Duplicates with the Script:**
+   - Run the `dupvcf.py` script in Thonny as described above.
+   - The cleaned `.vcf` file will be saved as `e:\cleaned_vcards.vcf`.
+
+
+## MAKE SURE YOU HAVE THE BACKUP FILE!!!
+
+3. **Delete All Contacts from iCloud:**
+   - Go to [iCloud Contacts](https://www.icloud.com/contacts/).
+   - Select all contacts and click **Delete**.
+   - Confirm deletion.
+
+4. **Re-Import Cleaned Contacts:**
+   - Click the **gear icon** and select **Import vCard**.
+   - Choose `cleaned_vcards.vcf` and upload it.
+
+Your iPhone will now sync with the updated contacts automatically.
 
 ## 🤝 Contributing
 Feel free to submit pull requests or report issues to improve the script!
 
-## 📜 License
+## 🐜 License
 This project is open-source and available under the MIT License.
 
