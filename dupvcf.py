@@ -1,45 +1,44 @@
 import sys
 import re
-import base64
 
 def clean_phone_number(phone):
     """Removes spaces and adds +91 to 10-digit numbers."""
     phone = re.sub(r'\s+', '', phone)
+    phone = re.sub(r'^\+91', '', phone)  # Remove existing +91
     if re.match(r'^\d{10}$', phone):
         return '+91' + phone
     return phone
 
-def is_base64(s):
-    """Checks if a string is Base64-encoded."""
-    try:
-        return base64.b64encode(base64.b64decode(s)).decode() == s
-    except Exception:
-        return False
-
 def validate_vcard(vcard_lines):
-    """Validates if a vCard contains necessary fields."""
+    """Validates and ensures a vCard contains necessary fields."""
     has_version = any(line.startswith("VERSION:") for line in vcard_lines)
     has_fn = any(line.startswith("FN:") for line in vcard_lines)
-    return has_version and has_fn
+    has_n = any(line.startswith("N:") for line in vcard_lines)
+    
+    if not has_version:
+        vcard_lines.insert(1, "VERSION:3.0")
+    if not has_fn:
+        vcard_lines.insert(2, "FN:Unknown")
+    if not has_n:
+        vcard_lines.insert(3, "N:Unknown;;;;")
+    
+    return vcard_lines
 
-def process_vcard_line(line, debug):
+def process_vcard_line(line):
     """Processes each line of a vCard, cleaning and extracting relevant data."""
     if "TEL" in line:
         phone = re.sub(r'[^0-9+]', '', line.split(':')[-1])
         phone = clean_phone_number(phone)
         return f"TEL;type=pref:{phone}", phone
-    elif any(x in line for x in ["X-ADDRESSING-GRAMMAR", "PRODID", "REV", "CATEGORIES", "NOTE"]):
-        return None, None  # Remove Apple-specific fields
-    elif is_base64(line.split(':')[-1]):
-        return None, None  # Remove Base64-encoded data
+    elif any(x in line for x in ["PRODID", "REV", "CATEGORIES"]):
+        return None, None  # Remove non-essential fields
     return line, None
 
 def remove_duplicate_vcards(input_file, output_file):
-    """Cleans and deduplicates vCards based on phone numbers from an external file."""
+    """Cleans and deduplicates vCards based on phone numbers."""
     vcards = {}
     vcard = []
-    current_key = None
-    debug = True  # Enable debugging
+    phone_numbers = set()
     
     try:
         with open(input_file, 'r', encoding='utf-8') as f:
@@ -53,21 +52,18 @@ def remove_duplicate_vcards(input_file, output_file):
         
         if line.startswith("BEGIN:VCARD"):
             vcard = []
-            current_key = None
-            if debug:
-                print("Begin vCard")
+            current_phone = None
         elif line.startswith("END:VCARD"):
-            if debug:
-                print("End vCard")
-            if validate_vcard(vcard):
-                key = current_key if current_key else "_NO_PHONE_" + str(len(vcards))
-                vcards[key] = "\n".join(vcard)
+            vcard = validate_vcard(vcard)  # Ensure required fields exist
+            if current_phone and current_phone not in phone_numbers:
+                phone_numbers.add(current_phone)
+                vcards[current_phone] = "\n".join(vcard)
         else:
-            processed_line, phone = process_vcard_line(line, debug)
+            processed_line, phone = process_vcard_line(line)
             if processed_line:
                 vcard.append(processed_line)
-            if phone and not current_key:
-                current_key = phone
+            if phone:
+                current_phone = phone
     
     if not vcards:
         print("No valid vCards found! Check input file format.")
@@ -79,15 +75,8 @@ def remove_duplicate_vcards(input_file, output_file):
     
     print(f"Processing complete. Cleaned vCards saved to {output_file}")
 
-
-
-    # ------------------------------------------------------------------------
-
-
-
 if __name__ == "__main__":
-    
-    input_file = "c:\\input.vcf"
-    output_file = "c:\\cleaned_vcards.vcf"
-    
+    input_file = "e:\\c.vcf"
+    output_file = "e:\\cleaned_vcards.vcf"
     remove_duplicate_vcards(input_file, output_file)
+
