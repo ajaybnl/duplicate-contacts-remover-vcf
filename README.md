@@ -1,13 +1,23 @@
-# 📇 Duplicate Contacts Remover (VCF)
+# 🚀 **Duplicate Contacts Remover (VCF) - Now Available!**  
 
-A Python script to clean and deduplicate contacts from `.vcf` (vCard) files, ensuring a well-organized contact list.
+Tired of messy contact lists with duplicate entries? Our **Python-based vCard Cleaner** is here to help! 🧹✨  
 
-## 🚀 Features
-- Removes duplicate contacts by matching phone numbers.
-- Cleans and formats phone numbers (adds `+91` for 10-digit numbers, removes spaces).
-- Ensures required fields (`VERSION`, `FN`, `N`) exist in each vCard.
-- Keeps only one entry for duplicate contacts.
-- Works with large `.vcf` files efficiently.
+🔹 **Features:**  
+✅ Removes duplicate contacts based on phone numbers  
+✅ Cleans & formats numbers automatically (+91 for 10-digit numbers)  
+✅ Merges duplicate contacts, even if fields are reordered  
+✅ Eliminates duplicate phone numbers within the same contact  
+✅ Works with **iCloud, Google Contacts, and Android vCards**  
+
+🔹 **How to Use?**  
+1️⃣ Export your contacts as a `.vcf` file  
+2️⃣ Run the script in **Thonny IDE** or Python  
+3️⃣ Import the cleaned `.vcf` back to your phone or iCloud  
+
+🔹 **Example Fix:**  
+Before: Multiple contacts for **Scarlet Johansan** with different formats  
+After: **One clean contact with a properly formatted number!**  
+
 
 ## 🔧 Usage
 ### Running the Script via Thonny IDE
@@ -15,6 +25,10 @@ A Python script to clean and deduplicate contacts from `.vcf` (vCard) files, ens
 2. Click on **File > Open** and select `dupvcf.py`.
 3. Modify the input and output file paths if needed (default: `e:\c.vcf` → `e:\cleaned_vcards.vcf`).
 4. Click **Run** or press `F5` to execute the script.
+
+### Or Run it with python.exe
+Install python, run with command line. 
+
 
 The script will process the `.vcf` file and remove duplicate contacts automatically.
 
@@ -49,11 +63,11 @@ TEL;TYPE=PREF:+919876543210
 END:VCARD
 ```
 
-## 🌐 Cleaning iPhone Duplicate Contacts
+## 🌐 Cleaning iPhone / Google Contacts Duplicate Contacts
 Follow these steps to clean duplicate contacts on iPhone using iCloud:
 
-1. **Export Contacts from iCloud:**
-   - Go to [iCloud Contacts](https://www.icloud.com/contacts/).
+1. **Export Contacts from iCloud / Google Contacts:**
+   - Go to [iCloud Contacts](https://www.icloud.com/contacts/). 
    - Press `Ctrl + A` (Windows) or `Cmd + A` (Mac) to select all contacts.
    - Click on the **gear icon** at the bottom left and select **Export vCard**.
    - Save the `.vcf` file to your computer.
